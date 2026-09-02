@@ -170,7 +170,7 @@ The example coordinate is replaceable with the actual job-site coordinate.
 
 ## 9. Performance proof
 
-The assignment requires raw execution statistics. These files are intentionally templates until the scripts are run against the seeded databases.
+The assignment requires raw execution statistics. The following evidence was generated from the seeded PostgreSQL and MongoDB databases.
 
 PostgreSQL:
 
@@ -230,8 +230,8 @@ Save the complete JSON output to:
 
 ## 11. Final GitHub information
 
-**GitHub repository:** `<PASTE YOUR TEAM 14 REPOSITORY URL HERE>`  
-**Final commit hash:** `<PASTE FINAL COMMIT HASH HERE>`
+**GitHub repository:** `https://github.com/Vikash-Maddheshiya-961/team14_a1`  
+**Final commit hash:** `ca14023f28bf28798d69535bc9d3a1838a57b500`
 
 ## 12. Submission
 
@@ -243,3 +243,51 @@ Create the ZIP with only source/scripts/docs. Do not include:
 - `__pycache__`.
 
 The final ZIP must be strictly under 20 MB.
+
+### 9.1 Actual PostgreSQL EXPLAIN ANALYZE output
+
+```text
+                                                                                QUERY PLAN                                                                                
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ GroupAggregate  (cost=348.84..434.17 rows=3413 width=44) (actual time=3.772..6.931 rows=3420.00 loops=1)
+   Group Key: ((created_at)::date), freelancer_id
+   Buffers: shared hit=16 read=19
+   ->  Sort  (cost=348.84..357.38 rows=3413 width=17) (actual time=3.740..3.992 rows=3439.00 loops=1)
+         Sort Key: ((created_at)::date), freelancer_id
+         Sort Method: quicksort  Memory: 231kB
+         Buffers: shared hit=16 read=19
+         ->  Index Only Scan using idx_completed_contracts_analytics on contracts  (cost=0.29..148.55 rows=3413 width=17) (actual time=0.168..1.965 rows=3439.00 loops=1)
+               Index Cond: (created_at >= (CURRENT_DATE - '30 days'::interval))
+               Heap Fetches: 11
+               Index Searches: 1
+               Buffers: shared hit=10 read=19
+ Planning:
+   Buffers: shared hit=212 read=1
+ Planning Time: 1.421 ms
+ Execution Time: 7.311 ms
+(16 rows)
+
+
+### 9.1 Actual PostgreSQL EXPLAIN ANALYZE output
+
+```text
+                                                                                QUERY PLAN                                                                                
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ GroupAggregate  (cost=348.84..434.17 rows=3413 width=44) (actual time=3.772..6.931 rows=3420.00 loops=1)
+   Group Key: ((created_at)::date), freelancer_id
+   Buffers: shared hit=16 read=19
+   ->  Sort  (cost=348.84..357.38 rows=3413 width=17) (actual time=3.740..3.992 rows=3439.00 loops=1)
+         Sort Key: ((created_at)::date), freelancer_id
+         Sort Method: quicksort  Memory: 231kB
+         Buffers: shared hit=16 read=19
+         ->  Index Only Scan using idx_completed_contracts_analytics on contracts  (cost=0.29..148.55 rows=3413 width=17) (actual time=0.168..1.965 rows=3439.00 loops=1)
+               Index Cond: (created_at >= (CURRENT_DATE - '30 days'::interval))
+               Heap Fetches: 11
+               Index Searches: 1
+               Buffers: shared hit=10 read=19
+ Planning:
+   Buffers: shared hit=212 read=1
+ Planning Time: 1.421 ms
+ Execution Time: 7.311 ms
+(16 rows)
+
